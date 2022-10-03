@@ -1,6 +1,11 @@
 package ch.heigvd.api.labio.impl;
 
+import ch.heigvd.api.labio.impl.transformers.NoOpCharTransformer;
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,7 +34,8 @@ public class FileTransformer {
      *  Later, replace it by a combination of the UpperCaseCharTransformer
      *  and the LineNumberCharTransformer.
      */
-    // ... transformer = ...
+
+    NoOpCharTransformer transformer = new NoOpCharTransformer();
 
     /* TODO: implement the following logic here:
      *  - open the inputFile and an outputFile
@@ -40,7 +46,14 @@ public class FileTransformer {
      *    then later replace it with a combination of UpperCaseFCharTransformer and LineNumberCharTransformer.
      */
     try {
-
+      InputStream inputStream = FileUtils.openInputStream(inputFile);
+      OutputStream outputStream = FileUtils.openOutputStream(new File(inputFile.getAbsolutePath() + ".out"));
+      int c;
+      while ((c = inputStream.read()) != -1) {
+          outputStream.write(transformer.transform(String.valueOf((char) c)).getBytes());
+      }
+      inputStream.close();
+      outputStream.close();
     } catch (Exception ex) {
       LOG.log(Level.SEVERE, "Error while reading, writing or transforming file.", ex);
     }
