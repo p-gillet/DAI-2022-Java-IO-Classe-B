@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Olivier Liechti
+ * @author Olivier Liechtid
  */
 public class Application {
 
