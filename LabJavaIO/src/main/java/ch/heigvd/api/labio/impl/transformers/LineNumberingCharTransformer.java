@@ -1,6 +1,7 @@
 package ch.heigvd.api.labio.impl.transformers;
 
 import java.util.logging.Logger;
+import java.util.List;
 
 /**
  * This class applies a transformation to the input character (a string with a single character):
@@ -18,10 +19,25 @@ import java.util.logging.Logger;
  */
 public class LineNumberingCharTransformer {
   private static final Logger LOG = Logger.getLogger(UpperCaseCharTransformer.class.getName());
+  static boolean isFirst = true;
+  private int line = 1;
 
   public String transform(String c) {
-    /* TODO: implement the transformation here.
-     */
-    throw new UnsupportedOperationException("The student has not implemented this method yet.");
+    String result = "";
+    if(c.equals("\n")){
+
+    }
+    if (line == 1) {
+      result = line++ + ". ";
+    }
+
+    if (c.equals("\r")){
+      result += "";
+    } else if (c.equals("\n")) {
+      result +=  c + line++ + ". ";
+    } else {
+      result += c;
+    }
+    return result;
   }
 }
