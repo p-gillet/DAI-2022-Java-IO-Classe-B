@@ -24,19 +24,23 @@ public class LineNumberingCharTransformer {
 
   public String transform(String c) {
     String result = "";
-    if(c.equals("\n")){
+    if (c.equals("\n")) {
 
     }
     if (line == 1) {
       result = line++ + ". ";
     }
 
-    if (c.equals("\r")){
-      result += "";
-    } else if (c.equals("\n")) {
-      result +=  c + line++ + ". ";
-    } else {
-      result += c;
+    switch (c) {
+      case "\n":
+        result += c + line++ + ". ";
+        break;
+      case "\r":
+        result += "";
+        break;
+      default:
+        result += c;
+        break;
     }
     return result;
   }
