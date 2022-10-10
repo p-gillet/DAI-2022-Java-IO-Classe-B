@@ -1,11 +1,12 @@
 package ch.heigvd.api.labio.impl;
 
+import ch.heigvd.api.labio.impl.transformers.LineNumberingCharTransformer;
 import ch.heigvd.api.labio.impl.transformers.NoOpCharTransformer;
+import ch.heigvd.api.labio.impl.transformers.UpperCaseCharTransformer;
 import org.apache.commons.io.FileUtils;
 
-import java.io.File;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,7 +36,9 @@ public class FileTransformer {
      *  and the LineNumberCharTransformer.
      */
 
-    NoOpCharTransformer transformer = new NoOpCharTransformer();
+    NoOpCharTransformer transformer1 = new NoOpCharTransformer();
+    LineNumberingCharTransformer transformer2 = new LineNumberingCharTransformer();
+    UpperCaseCharTransformer transformer3 = new UpperCaseCharTransformer();
 
     /* TODO: implement the following logic here:
      *  - open the inputFile and an outputFile
@@ -46,11 +49,14 @@ public class FileTransformer {
      *    then later replace it with a combination of UpperCaseFCharTransformer and LineNumberCharTransformer.
      */
     try {
-      InputStream inputStream = FileUtils.openInputStream(inputFile);
-      OutputStream outputStream = FileUtils.openOutputStream(new File(inputFile.getAbsolutePath() + ".out"));
+      InputStreamReader inputStream = new InputStreamReader(new FileInputStream(inputFile), StandardCharsets.UTF_8);
+      OutputStreamWriter outputStream = new OutputStreamWriter(new FileOutputStream(inputFile.getAbsolutePath() + ".out"), StandardCharsets.UTF_8);
       int c;
       while ((c = inputStream.read()) != -1) {
-          outputStream.write(transformer.transform(String.valueOf((char) c)).getBytes());
+        String newC = transformer1.transform(String.valueOf((char) c));
+        newC = transformer2.transform(newC);
+        newC = transformer3.transform(newC);
+          outputStream.write(newC);
       }
       inputStream.close();
       outputStream.close();
