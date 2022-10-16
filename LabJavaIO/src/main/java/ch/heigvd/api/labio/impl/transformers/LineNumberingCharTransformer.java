@@ -1,8 +1,5 @@
 package ch.heigvd.api.labio.impl.transformers;
 
-import java.util.logging.Logger;
-import java.util.List;
-
 /**
  * This class applies a transformation to the input character (a string with a single character):
  *   1. Convert all line endings to Unix-style line endings, i.e. only '\n'.
@@ -18,15 +15,11 @@ import java.util.List;
  * @author Olivier Liechti, Juergen Ehrensberger
  */
 public class LineNumberingCharTransformer {
-  private static final Logger LOG = Logger.getLogger(UpperCaseCharTransformer.class.getName());
-  static boolean isFirst = true;
   private int line = 1;
 
   public String transform(String c) {
     String result = "";
-    if (c.equals("\n")) {
 
-    }
     if (line == 1) {
       result = line++ + ". ";
     }
